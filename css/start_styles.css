@@ -1,0 +1,173 @@
+body 
+{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f5f7fa;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+sub {
+    font-size: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    margin-right: 20px;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.login-container, .signup-container {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.signup-container {
+    flex: 2;
+    min-width: 280px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#login-form input, #signup-form input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+/* Submit button styling */
+#login-form button, #signup-form button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff; /* Same blue as section titles */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; /* Pointer to indicate clickable button */
+    width: 50%;
+    margin-top: 12px;
+}
+
+/* Hover effect for submit button */
+#login-form button:hover, #signup-form button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Action buttons (Edit and Delete) styling */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+/* Individual action buttons */
+.action-buttons button {
+    flex: 1;
+    min-width: 70px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Edit button styling */
+.action-buttons button.edit {
+    background-color: #28a745; /* Green for edit */
+}
+
+/* Delete button styling */
+.action-buttons button.delete {
+    background-color: #dc3545; /* Red for delete */
+}
+
+/* Hover effect for action buttons */
+.action-buttons button:hover {
+    opacity: 0.9;
+}
+
+/* Responsive design: adjustments for medium screens */
+@media (max-width: 992px) {
+    /* Stack content vertically on smaller screens */
+    .content {
+        flex-direction: column;
+    }
+
+    /* Ensure containers use full width */
+    .form-container, .contacts-container {
+        max-width: 100%;
+    }
+
+    /* Adjust table for smaller screens */
+    #contacts-table {
+        min-width: unset; /* Remove the minimum width */
+    }
+
+    /* Reduce font size and padding for table */
+    #contacts-table th, #contacts-table td {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    /* Adjust action buttons */
+    .action-buttons button {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile design: further adjustments for smaller devices */
+@media (max-width: 576px) {
+    /* Smaller title font size */
+    h1 {
+        font-size: 24px;
+    }
+
+    /* Smaller section title font size */
+    h2 {
+        font-size: 18px;
+    }
+
+    /* Smaller input fields and buttons */
+    #contact-form input, #search {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #contact-form button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
