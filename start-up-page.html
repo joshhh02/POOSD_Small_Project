@@ -1,0 +1,72 @@
+<html>
+<head>
+	<title>COP4331 Log-In or Sign Up Page</title>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/start_code.js"></script>
+    <link href="css/start_styles.css" rel="stylesheet">	
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" rel="stylesheet">
+</head>
+<body>
+
+<body>
+
+    <!-- Main container to hold all the content -->
+    <div class="container">
+        
+        <!-- Title of the app -->
+        <h1>COP4331 Log-In or Sign Up Page</h1>
+        
+        <!-- Flexbox content area for the form and the contact list -->
+        <div class="content">
+            
+            <!-- Section for adding new contacts -->
+            <div class="login-container">
+                <h2>Log In</h2>
+                <!-- Contact form for adding new contacts -->
+                <form id="login-form">
+                    <!-- Input field for contact name -->
+                    <sub>Username</sub><br>
+                    <input type="username" id="name" placeholder="Username" required>
+
+                    <br><sub>Password</sub><br>
+                    <!-- Input field for contact phone number -->
+                    <input type="password" id="phone" placeholder="Password" required>
+
+                    <!-- Button to submit the form -->
+                    <div>
+                        <button type="button" onclick="doLogin();">Log In</button>
+                    </div>
+                    
+                </form>
+            </div>
+            
+            <!-- Section for displaying the list of contacts -->
+            <div class="signup-container">
+                <h2>Sign Up</h2>
+                
+                <form id="signup-form">
+                    <!-- Input field for contact name -->
+                    <sub>Name</sub><br>
+                    <input type="text" id="name" placeholder="Name" required>
+
+                    <br><sub>Username</sub><br>
+                    <input type="username" id="name" placeholder="Username" required>
+
+                    <br><sub>Password</sub><br>
+                    <!-- Input field for contact phone number -->
+                    <input type="password" id="phone" placeholder="Password" required>
+
+                    <!-- Button to submit the form -->
+                    <div>
+                        <button type="button" onclick="doSignUp();">Sign Up</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
