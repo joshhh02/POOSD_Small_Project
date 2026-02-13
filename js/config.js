@@ -1,4 +1,4 @@
-const urlBase = 'http://karinann.site/LAMPAPI'; // CHANGE
+const urlBase = '/LAMPAPI'; // CHANGE
 const extension = 'php';
 
 let userId = 0;
