@@ -1,12 +1,14 @@
 <?php
+	require_once 'db_config.php';
+	
 	$inData = getRequestInfo();
 	
 	$contactId = $inData["contactId"];
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error) 
+	$conn = get_db_connection();
+	if ($conn === null) 
 	{
-		returnWithError($conn->connect_error);
+		returnWithError("Database connection failed");
 	} 
 	else
 	{

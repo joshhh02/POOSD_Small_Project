@@ -1,6 +1,5 @@
-
-
 <?php
+	require_once 'db_config.php';
 
 	// reads json data sent from the front end
 	$inData = getRequestInfo();
@@ -12,10 +11,10 @@
 	$searchCount = 0;
 	
 	// connects to mysql database 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "cop4331");
-	if( $conn->connect_error ) 
+	$conn = get_db_connection();
+	if( $conn === null ) 
 	{
-		returnWithError( $conn->connect_error );
+		returnWithError( "Database connection failed" );
 	}
 	else
 	{
