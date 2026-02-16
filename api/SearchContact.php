@@ -43,7 +43,7 @@
 				$contacts = array();
 				while( $row = $result->fetch_assoc() )
 				{
-					// combind first and last name into name field
+					// combined first and last name into name field
 					$row['Name'] = $row['FirstName'] . ' ' . $row['LastName'];
 					$row['userId'] = $userId; // add userid in response
 					unset($row['FirstName']); // removes seperated first last name
@@ -206,7 +206,7 @@
 		$input = file_get_contents('php://input');
 		$decoded = json_decode($input, true);
 		
-		// cehcks for JSON decode errors
+		// checks for JSON decode errors
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			return array(); // return empty array instead of null
 		}
