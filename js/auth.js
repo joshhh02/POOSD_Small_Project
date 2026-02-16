@@ -1,6 +1,8 @@
 /* Authentication and Cookie Management */
 async function doLogin() {
-  userId = 0; firstName = ""; lastName = "";
+  userId = 0;
+  firstName = "";
+  lastName = "";
 
   const login = document.getElementById("loginName").value.trim();
   const password = document.getElementById("loginPassword").value;
@@ -11,11 +13,11 @@ async function doLogin() {
   const hash = md5(password);
 
   try {
-    const data = await apiRequest("Login", { login, password: hash });
+    const data = await apiRequest("LoginContact", { login, password: hash });
 
     userId = data.id || 0;
     if (userId < 1) {
-      if (resultEl) resultEl.textContent = "User/Password combination incorrect";
+      if (resultEl) resultEl.textContent = "Invalid username or password";
       return;
     }
 
@@ -23,19 +25,56 @@ async function doLogin() {
     lastName = data.lastName || "";
 
     saveCookie();
-    window.location.href = "contact_management.html"; // adjust if page name differs
+    window.location.href = "contact_management.html";
+  } catch (err) {
+    if (resultEl) resultEl.textContent = err.message;
+  }
+}
+
+async function doSignUp() {
+  const first = document.getElementById("signupFirstName").value.trim();
+  const last = document.getElementById("signupLastName").value.trim();
+  const login = document.getElementById("signupLogin").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  const resultEl = document.getElementById("signupResult");
+  if (resultEl) resultEl.textContent = "";
+
+  const hash = md5(password);
+
+  try {
+    const data = await apiRequest("RegisterContact", {
+      firstName: first,
+      lastName: last,
+      login,
+      password: hash,
+    });
+
+    // RegisterContact.php returns id + firstName + lastName
+    userId = data.id || 0;
+    firstName = data.firstName || first;
+    lastName = data.lastName || last;
+
+    if (userId > 0) {
+      saveCookie();
+      window.location.href = "contact_management.html";
+    } else {
+      if (resultEl) resultEl.textContent = "Registration failed";
+    }
   } catch (err) {
     if (resultEl) resultEl.textContent = err.message;
   }
 }
 
 function doLogout() {
-  userId = 0; firstName = ""; lastName = "";
+  userId = 0;
+  firstName = "";
+  lastName = "";
   clearCookie();
-  window.location.href = "start-up-page.html"; // adjust if page name differs
+  window.location.href = "start-up-page.html"; // or index.html later
 }
 
-// --- cookies ---
+// ----- cookies -----
 function saveCookie() {
   const minutes = 20;
   const date = new Date();
@@ -62,7 +101,10 @@ function readCookie() {
   }
 
   if (!Number.isFinite(userId) || userId < 0) {
-    window.location.href = "start-up-page.html"; // adjust if page name differs
+    window.location.href = "start-up-page.html";
+  } else {
+    const userNameEl = document.getElementById("userName");
+    if (userNameEl) userNameEl.textContent = `Logged in as ${firstName} ${lastName}`;
   }
 }
 
