@@ -4,9 +4,6 @@
 	// reads json data sent from the front end
 	$inData = getRequestInfo();
 	
-	// test for what log recieved; remove when deploying publicly
-	error_log("Received data: " . json_encode($inData));
-	
 	$searchResults = "";
 	$searchCount = 0;
 	
@@ -207,12 +204,10 @@
 	function getRequestInfo()
 	{
 		$input = file_get_contents('php://input');
-		error_log("Raw input: " . $input); // Debug line
 		$decoded = json_decode($input, true);
 		
 		// cehcks for JSON decode errors
 		if (json_last_error() !== JSON_ERROR_NONE) {
-			error_log("JSON decode error: " . json_last_error_msg());
 			return array(); // return empty array instead of null
 		}
 		
