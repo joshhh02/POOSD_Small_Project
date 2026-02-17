@@ -25,7 +25,7 @@ async function doLogin() {
     lastName = data.lastName || "";
 
     saveCookie();
-    window.location.href = "contact_management.html";
+    window.location.href = "contact.html";
   } catch (err) {
     if (resultEl) resultEl.textContent = err.message;
   }
@@ -57,7 +57,7 @@ async function doSignUp() {
 
     if (userId > 0) {
       saveCookie();
-      window.location.href = "contact_management.html";
+      window.location.href = "contact.html";
     } else {
       if (resultEl) resultEl.textContent = "Registration failed";
     }
@@ -71,7 +71,7 @@ function doLogout() {
   firstName = "";
   lastName = "";
   clearCookie();
-  window.location.href = "start-up-page.html"; // or index.html later
+  window.location.href = "index.html"; 
 }
 
 // ----- cookies -----
@@ -101,7 +101,7 @@ function readCookie() {
   }
 
   if (!Number.isFinite(userId) || userId < 0) {
-    window.location.href = "start-up-page.html";
+    window.location.href = "index.html";
   } else {
     const userNameEl = document.getElementById("userName");
     if (userNameEl) userNameEl.textContent = `Logged in as ${firstName} ${lastName}`;
