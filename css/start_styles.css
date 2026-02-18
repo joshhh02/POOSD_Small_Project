@@ -1,173 +1,192 @@
-body 
-{
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    background-color: #f5f7fa;
-    padding: 0;
-    color: #333;
+/* Base */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f5f7fa;
+  color: #1f2937;
 }
 
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+.topbar {
+  background: #000;
+  color: #fff;
+  height: 95px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 40px;
+.topbar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #007bff;
+.topbar-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+}
+.topbar-title {
+  margin-top: -15px;
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1;
 }
 
-sub {
-    font-size: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    margin-right: 20px;
+
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
+
+.brand-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.15);
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  color: white;
 }
 
-.login-container, .signup-container {
-    flex: 1;
-    min-width: 280px;
-    max-width: 400px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+.brand-name {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  margin: 0;
 }
 
-.signup-container {
-    flex: 2;
-    min-width: 280px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Page + Card */
+.page {
+  min-height: calc(100vh - 64px - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
 }
 
-#login-form input, #signup-form input {
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-top: 4px;
-    margin-bottom: 10px;
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
-/* Submit button styling */
-#login-form button, #signup-form button {
-    padding: 12px;
-    font-size: 16px;
-    background-color: #007bff; /* Same blue as section titles */
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer; /* Pointer to indicate clickable button */
-    width: 50%;
-    margin-top: 12px;
+.auth-title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-weight: 600;
 }
 
-/* Hover effect for submit button */
-#login-form button:hover, #signup-form button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+/* Fields */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* Action buttons (Edit and Delete) styling */
-.action-buttons {
-    display: flex;
-    gap: 5px;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-/* Individual action buttons */
-.action-buttons button {
-    flex: 1;
-    min-width: 70px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #fff;
-    font-size: 14px;
+.field-label {
+  font-size: 14px;
+  color: #374151;
 }
 
-/* Edit button styling */
-.action-buttons button.edit {
-    background-color: #28a745; /* Green for edit */
+.auth-form input {
+  width: 100%;
+  padding: 12px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
 }
 
-/* Delete button styling */
-.action-buttons button.delete {
-    background-color: #dc3545; /* Red for delete */
+.auth-form input:focus {
+  border-color: #94a3b8;
 }
 
-/* Hover effect for action buttons */
-.action-buttons button:hover {
-    opacity: 0.9;
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-/* Responsive design: adjustments for medium screens */
-@media (max-width: 992px) {
-    /* Stack content vertically on smaller screens */
-    .content {
-        flex-direction: column;
-    }
-
-    /* Ensure containers use full width */
-    .form-container, .contacts-container {
-        max-width: 100%;
-    }
-
-    /* Adjust table for smaller screens */
-    #contacts-table {
-        min-width: unset; /* Remove the minimum width */
-    }
-
-    /* Reduce font size and padding for table */
-    #contacts-table th, #contacts-table td {
-        font-size: 12px;
-        padding: 10px;
-    }
-
-    /* Adjust action buttons */
-    .action-buttons button {
-        padding: 6px 8px;
-        font-size: 12px;
-    }
+.btn-primary {
+  background: #1d4ed8; /* accessible blue */
+  color: #ffffff;
 }
 
-/* Mobile design: further adjustments for smaller devices */
-@media (max-width: 576px) {
-    /* Smaller title font size */
-    h1 {
-        font-size: 24px;
-    }
-
-    /* Smaller section title font size */
-    h2 {
-        font-size: 18px;
-    }
-
-    /* Smaller input fields and buttons */
-    #contact-form input, #search {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    #contact-form button {
-        font-size: 14px;
-        padding: 10px;
-    }
+.btn-primary:hover {
+  opacity: 0.92;
 }
+
+.btn-accent {
+  background: #059669; /* accessible green */
+  color: #ffffff;
+}
+
+.btn-accent:hover {
+  opacity: 0.92;
+}
+
+
+/* Messages */
+.form-msg {
+  min-height: 18px;
+  font-size: 14px;
+  color: #b91c1c; /* red-ish for errors */
+  text-align: center;
+}
+
+/* Utility */
+.hidden { display: none; }
+
+.footer {
+  height: 70px;
+  background: #000000;
+  color: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+}
+
+.footer-inner {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .auth-card { padding: 18px; }
+  .brand-name { font-size: 15px; }
+}
+
+
+
+
