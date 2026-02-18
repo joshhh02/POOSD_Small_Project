@@ -1,4 +1,4 @@
-const urlBase = '/LAMPAPI'; // CHANGE
+const urlBase = 'http://poosdproject.space/LAMPAPI'; // CHANGE
 const extension = 'php';
 
 let userId = 0;
