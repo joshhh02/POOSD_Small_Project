@@ -1,70 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>COP4331 Contact Management Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Contactual - Contacts</title>
 
   <link href="css/styles.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <div class="container">
-    <h1>COP4331 Contact Manager</h1>
-
-    <div class="content">
-      <!-- Add Contact -->
-      <div class="form-container">
-        <h2>Add Contact</h2>
-
-        <form id="contact-form" onsubmit="return false;">
-          <sub>Name</sub><br>
-          <input type="text" id="contactName" placeholder="John Doe" required>
-
-          <br><sub>Phone Number</sub><br>
-          <input type="text" id="contactPhone" placeholder="(xxx)-xxx-xxxx" required>
-
-          <br><sub>Email</sub><br>
-          <input type="email" id="contactEmail" placeholder="email@example.com" required>
-
-          <div>
-            <button type="button" onclick="addContact();">Add</button>
-          </div>
-
-          <div id="contactAddResult"></div>
-        </form>
+  <!-- Top Nav -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img src="images/contactual-logo.png" alt="Contactual Logo" class="logo">
+        <span class="brand-name">Contactual</span>
       </div>
 
-      <!-- Contact List -->
-      <div class="contacts-container">
-        <h2>Contact List</h2>
+      <div class="topbar-right">
+        <span id="userName" class="user-pill"></span>
+        <button type="button" id="logoutButton" class="btn btn-accent" onclick="doLogout();">Log Out</button>
+      </div>
+    </div>
+  </header>
 
-        <input type="text" id="searchText" placeholder="Search Contact">
-        <div id="contactSearchResult"></div>
+  <!-- Page Content -->
+  <main class="page">
+    <div class="grid">
+      <!-- Add Contact -->
+      <section class="card">
+        <h2 class="card-title">Add Contact</h2>
 
-        <div class="table-container">
+        <form id="contact-form" onsubmit="return false;" class="form">
+          <label class="field">
+            <span class="field-label">Name</span>
+            <input type="text" id="contactName" placeholder="John Doe" required>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Phone Number</span>
+            <input type="text" id="contactPhone" placeholder="(xxx)-xxx-xxxx" required>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Email</span>
+            <input type="email" id="contactEmail" placeholder="email@example.com" required>
+          </label>
+
+          <button type="button" class="btn btn-primary" onclick="addContact();">Add</button>
+          <div id="contactAddResult" class="msg"></div>
+        </form>
+      </section>
+
+      <!-- Contacts -->
+      <section class="card">
+        <h2 class="card-title">Contact List</h2>
+
+        <div class="search-row">
+          <input type="text" id="searchText" class="search" placeholder="Search Contact">
+          <div id="contactSearchResult" class="msg"></div>
+        </div>
+
+        <div class="table-wrap">
           <table id="contacts-table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Actions</th>
+                <th style="width: 160px;">Actions</th>
               </tr>
             </thead>
-
             <tbody id="contactsBody">
               <!-- rows injected by contacts.js -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
+  </main>
 
-    <span id="userName"></span><br />
-    <button type="button" id="logoutButton" class="buttons" onclick="doLogout();">Log Out</button>
-  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      © Contactual | 2026
+    </div>
+  </footer>
 
+  <!-- Scripts -->
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>

@@ -1,67 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>COP4331 Log-In or Sign Up Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Contactual</title>
 
-  <link href="css/start_styles.css" rel="stylesheet">
+  <link href="css/start_styles.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <div class="container">
-    <h1>COP4331 Log-In or Sign Up Page</h1>
-
-    <div class="content">
-      <!-- Login -->
-      <div class="login-container">
-        <h2>Log In</h2>
-
-        <form id="login-form" onsubmit="return false;">
-          <sub>Username</sub><br>
-          <input type="text" id="loginName" placeholder="Username" required>
-
-          <br><sub>Password</sub><br>
-          <input type="password" id="loginPassword" placeholder="Password" required>
-
-          <div>
-            <button type="button" onclick="doLogin();">Log In</button>
-          </div>
-
-          <div id="loginResult"></div>
-        </form>
-      </div>
-
-      <!-- Sign Up -->
-      <div class="signup-container">
-        <h2>Sign Up</h2>
-
-        <form id="signup-form" onsubmit="return false;">
-          <sub>First Name</sub><br>
-          <input type="text" id="signupFirstName" placeholder="First Name" required>
-
-          <br><sub>Last Name</sub><br>
-          <input type="text" id="signupLastName" placeholder="Last Name" required>
-
-          <br><sub>Username</sub><br>
-          <input type="text" id="signupLogin" placeholder="Username" required>
-
-          <br><sub>Password</sub><br>
-          <input type="password" id="signupPassword" placeholder="Password" required>
-
-          <div>
-            <button type="button" onclick="doSignUp();">Sign Up</button>
-          </div>
-
-          <div id="signupResult"></div>
-        </form>
-      </div>
-    </div>
+  <!-- Top Nav -->
+  <header class="topbar">
+  <div class="topbar-center">
+    <img src="images/contactual-logo.png" alt="Contactual Logo" class="topbar-logo">
+    <div class="topbar-title">Contactual</div>
   </div>
+</header>
 
+
+  <!-- Page Content -->
+  <main class="page">
+    <section class="auth-card">
+      <h2 class="auth-title">Welcome!</h2>
+
+      <!-- LOGIN FORM (default visible) -->
+      <form id="login-form" class="auth-form" onsubmit="return false;">
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input type="text" id="loginName" placeholder="Username" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input type="password" id="loginPassword" placeholder="Password" required>
+        </label>
+
+        <button type="button" class="btn btn-primary" onclick="doLogin();">Login</button>
+        <button type="button" class="btn btn-accent" onclick="showSignup();">Sign Up</button>
+
+        <div id="loginResult" class="form-msg"></div>
+      </form>
+
+      <!-- SIGNUP FORM (hidden until toggled) -->
+      <form id="signup-form" class="auth-form hidden" onsubmit="return false;">
+        <label class="field">
+          <span class="field-label">First Name</span>
+          <input type="text" id="signupFirstName" placeholder="First Name" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Last Name</span>
+          <input type="text" id="signupLastName" placeholder="Last Name" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input type="text" id="signupLogin" placeholder="Username" required>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input type="password" id="signupPassword" placeholder="Password" required>
+        </label>
+
+        <button type="button" class="btn btn-primary" onclick="doSignUp();">Create Account</button>
+        <button type="button" class="btn btn-accent" onclick="showLogin();">Back to Login</button>
+
+        <div id="signupResult" class="form-msg"></div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      © Made by Group 21 | 2026
+    </div>
+  </footer>
+
+  <!-- Scripts -->
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
   <script src="js/md5.js"></script>
   <script src="js/auth.js"></script>
+
+  <!-- Tiny UI toggle helpers (safe + no conflicts) -->
+  <script>
+    function showSignup() {
+      document.getElementById("login-form").classList.add("hidden");
+      document.getElementById("signup-form").classList.remove("hidden");
+      document.getElementById("loginResult").textContent = "";
+    }
+
+    function showLogin() {
+      document.getElementById("signup-form").classList.add("hidden");
+      document.getElementById("login-form").classList.remove("hidden");
+      document.getElementById("signupResult").textContent = "";
+    }
+  </script>
 </body>
 </html>
