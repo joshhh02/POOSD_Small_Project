@@ -1,5 +1,10 @@
 <?php
 
+	header('Access-Control-Allow-Origin: *');
+	header('Access-Control-Allow-Methods: POST, OPTIONS');
+	header('Access-Control-Allow-Headers: Content-Type');
+	if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit(); }
+
 	require_once 'db_config.php';
 
 	$inData = getRequestInfo();
@@ -49,7 +54,7 @@
 		}
 		$dupStmt->close();
 
-		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Email, Phone, UserID, DateCreated) VALUES (?, ?, ?, ?, ?, NOW())");
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Email, Phone, UserID) VALUES (?, ?, ?, ?, ?)");
 		if( !$stmt )
 		{
 			returnWithError("Database prepare error");
