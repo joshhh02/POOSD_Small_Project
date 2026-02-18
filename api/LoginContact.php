@@ -75,6 +75,7 @@
 	{
 		header('Content-type: application/json');
 		echo $obj;
+		exit();
 	}
 	
 	/**

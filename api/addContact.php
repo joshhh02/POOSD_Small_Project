@@ -49,7 +49,7 @@
 		}
 		$dupStmt->close();
 
-		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Email, Phone, UserID) VALUES (?, ?, ?, ?, ?)");
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Email, Phone, UserID, DateCreated) VALUES (?, ?, ?, ?, ?, NOW())");
 		if( !$stmt )
 		{
 			returnWithError("Database prepare error");
@@ -95,6 +95,7 @@
 	{
 		header('Content-type: application/json');
 		echo $obj;
+		exit();
 	}
 	
 	/**
@@ -105,8 +106,10 @@
 	 */
 	function returnWithError($err)
 	{
-		$retValue = '{"success":false,"error":"' . $err . '"}';
-		sendResultInfoAsJson($retValue);
+		sendResultInfoAsJson(json_encode(array(
+			"success" => false,
+			"error" => $err
+		)));
 	}
 
 	/**
@@ -117,7 +120,10 @@
 	 */
 	function returnWithSuccess($contactId)
 	{
-		$retValue = '{"success":true,"error":"","contactId":' . $contactId . '}';
-		sendResultInfoAsJson($retValue);
+		sendResultInfoAsJson(json_encode(array(
+			"success" => true,
+			"error" => "",
+			"contactId" => (int)$contactId
+		)));
 	}
 ?>
