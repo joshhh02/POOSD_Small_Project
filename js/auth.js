@@ -88,7 +88,7 @@ function readCookie() {
   lastName = getCookie("lastName") || "";
   userId = parseInt(getCookie("userId") || "", 10);
 
-  if (!Number.isFinite(userId) || userId < 0) {
+  if (!Number.isFinite(userId) || userId <= 0) {
     window.location.href = "index.html";
   } else {
     const userNameEl = document.getElementById("userName");

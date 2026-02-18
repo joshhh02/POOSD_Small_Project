@@ -28,14 +28,21 @@
   <!-- Page Content -->
   <main class="page">
     <div class="grid">
-      <!-- Add Contact -->
+      <!-- Add / Edit Contact -->
       <section class="card">
-        <h2 class="card-title">Add Contact</h2>
+        <h2 class="card-title" id="formTitle">Add Contact</h2>
 
         <form id="contact-form" onsubmit="return false;" class="form">
+          <input type="hidden" id="editContactId" value="">
+
           <label class="field">
-            <span class="field-label">Name</span>
-            <input type="text" id="contactName" placeholder="John Doe" required>
+            <span class="field-label">First Name</span>
+            <input type="text" id="contactFirstName" placeholder="John" required>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Last Name</span>
+            <input type="text" id="contactLastName" placeholder="Doe">
           </label>
 
           <label class="field">
@@ -48,7 +55,10 @@
             <input type="email" id="contactEmail" placeholder="email@example.com" required>
           </label>
 
-          <button type="button" class="btn btn-primary" onclick="addContact();">Add</button>
+          <div class="form-buttons">
+            <button type="button" id="submitBtn" class="btn btn-primary" onclick="submitContactForm();">Add</button>
+            <button type="button" id="cancelEditBtn" class="btn btn-accent" onclick="cancelEdit();" style="display:none;">Cancel</button>
+          </div>
           <div id="contactAddResult" class="msg"></div>
         </form>
       </section>
@@ -69,6 +79,7 @@
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>Date Created</th>
                 <th style="width: 160px;">Actions</th>
               </tr>
             </thead>

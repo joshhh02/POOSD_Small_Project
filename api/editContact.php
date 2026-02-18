@@ -103,17 +103,22 @@
 	{
 		header('Content-type: application/json');
 		echo $obj;
+		exit();
 	}
 	
 	function returnWithError($err)
 	{
-		$retValue = '{"success":false,"error":"' . $err . '"}';
-		sendResultInfoAsJson($retValue);
+		sendResultInfoAsJson(json_encode(array(
+			"success" => false,
+			"error" => $err
+		)));
 	}
 
 	function returnWithSuccess()
 	{
-		$retValue = '{"success":true,"error":""}';
-		sendResultInfoAsJson($retValue);
+		sendResultInfoAsJson(json_encode(array(
+			"success" => true,
+			"error" => ""
+		)));
 	}
 ?>

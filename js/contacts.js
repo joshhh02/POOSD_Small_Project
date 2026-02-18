@@ -32,15 +32,24 @@ async function searchContacts(query) {
   }
 }
 
+// Handles both Add and Edit depending on whether editContactId is set
+async function submitContactForm() {
+  const editId = document.getElementById("editContactId")?.value;
+  if (editId) {
+    await saveEditContact();
+  } else {
+    await addContact();
+  }
+}
+
 async function addContact() {
-  const full = document.getElementById("contactName")?.value.trim() || "";
+  const first = document.getElementById("contactFirstName")?.value.trim() || "";
+  const last = document.getElementById("contactLastName")?.value.trim() || "";
   const phone = document.getElementById("contactPhone")?.value.trim() || "";
   const email = document.getElementById("contactEmail")?.value.trim() || "";
 
   const msg = document.getElementById("contactAddResult");
   if (msg) msg.textContent = "";
-
-  const { first, last } = splitName(full);
 
   try {
     // addContact.php expects firstName,lastName,email,phone,userId
@@ -53,51 +62,81 @@ async function addContact() {
     });
 
     if (msg) msg.textContent = "Contact added";
+    clearContactForm();
     searchContacts(document.getElementById("searchText")?.value.trim() || "");
   } catch (err) {
     if (msg) msg.textContent = err.message;
   }
 }
 
-async function editContact(contactId) {
-  const firstName = prompt("First name:");
-  if (firstName === null) return;
+// Populate the form with contact data for editing (no prompt dialogs)
+function editContact(contactId, name, phone, email) {
+  const { first, last } = splitName(name);
 
-  const lastName = prompt("Last name:");
-  if (lastName === null) return;
+  document.getElementById("editContactId").value = contactId;
+  document.getElementById("contactFirstName").value = first;
+  document.getElementById("contactLastName").value = last;
+  document.getElementById("contactPhone").value = phone;
+  document.getElementById("contactEmail").value = email;
 
-  const phone = prompt("Phone:");
-  if (phone === null) return;
+  document.getElementById("formTitle").textContent = "Edit Contact";
+  document.getElementById("submitBtn").textContent = "Update";
+  document.getElementById("cancelEditBtn").style.display = "inline-block";
 
-  const email = prompt("Email:");
-  if (email === null) return;
+  const msg = document.getElementById("contactAddResult");
+  if (msg) msg.textContent = "";
+
+  // Scroll to form
+  document.getElementById("contact-form").scrollIntoView({ behavior: "smooth" });
+}
+
+async function saveEditContact() {
+  const contactId = parseInt(document.getElementById("editContactId")?.value, 10);
+  const firstName = document.getElementById("contactFirstName")?.value.trim() || "";
+  const lastName = document.getElementById("contactLastName")?.value.trim() || "";
+  const phone = document.getElementById("contactPhone")?.value.trim() || "";
+  const email = document.getElementById("contactEmail")?.value.trim() || "";
+
+  const msg = document.getElementById("contactAddResult");
+  if (msg) msg.textContent = "";
 
   try {
     // editContact.php expects contactId,firstName,lastName,email,phone,userId
     await apiRequest("editContact", {
       contactId,
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
+      firstName,
+      lastName,
+      email: email,
+      phone: phone,
       userId,
     });
 
+    if (msg) msg.textContent = "Contact updated";
+    cancelEdit();
     searchContacts(document.getElementById("searchText")?.value.trim() || "");
   } catch (err) {
-    alert(err.message);
+    if (msg) msg.textContent = err.message;
   }
+}
+
+function cancelEdit() {
+  document.getElementById("editContactId").value = "";
+  document.getElementById("formTitle").textContent = "Add Contact";
+  document.getElementById("submitBtn").textContent = "Add";
+  document.getElementById("cancelEditBtn").style.display = "none";
+  clearContactForm();
 }
 
 async function deleteContact(contactId) {
   if (!confirm("Delete this contact?")) return;
 
+  const msg = document.getElementById("contactSearchResult");
   try {
     // deleteContact.php expects { contactId, userId }
     await apiRequest("deleteContact", { contactId, userId });
     searchContacts(document.getElementById("searchText")?.value.trim() || "");
   } catch (err) {
-    alert(err.message);
+    if (msg) msg.textContent = err.message;
   }
 }
 
@@ -108,21 +147,43 @@ function renderContacts(results) {
   body.innerHTML = "";
 
   for (const c of results) {
-    // SearchContact.php returns ID/Name/Phone/Email with this casing
+    // SearchContact.php returns ID/Name/Phone/Email/DateCreated with this casing
     const id = Number(c.ID);
+    const name = c.Name || "";
+    const phone = c.Phone || "";
+    const email = c.Email || "";
+    const dateCreated = c.DateCreated ? formatDate(c.DateCreated) : "";
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${escapeHtml(c.Name || "")}</td>
-      <td>${escapeHtml(c.Phone || "")}</td>
-      <td>${escapeHtml(c.Email || "")}</td>
+      <td>${escapeHtml(name)}</td>
+      <td>${escapeHtml(phone)}</td>
+      <td>${escapeHtml(email)}</td>
+      <td>${escapeHtml(dateCreated)}</td>
       <td>
-        <button type="button" onclick="editContact(${id})">Edit</button>
+        <button type="button" onclick="editContact(${id}, '${escapeAttr(name)}', '${escapeAttr(phone)}', '${escapeAttr(email)}')">Edit</button>
         <button type="button" onclick="deleteContact(${id})">Delete</button>
       </td>
     `;
     body.appendChild(tr);
   }
+}
+
+function clearContactForm() {
+  const firstEl = document.getElementById("contactFirstName");
+  const lastEl = document.getElementById("contactLastName");
+  const phoneEl = document.getElementById("contactPhone");
+  const emailEl = document.getElementById("contactEmail");
+  if (firstEl) firstEl.value = "";
+  if (lastEl) lastEl.value = "";
+  if (phoneEl) phoneEl.value = "";
+  if (emailEl) emailEl.value = "";
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString();
 }
 
 function splitName(full) {
@@ -139,4 +200,11 @@ function escapeHtml(s) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function escapeAttr(s) {
+  return String(s)
+    .replaceAll("\\", "\\\\")
+    .replaceAll("'", "\\'")
+    .replaceAll('"', '\\"');
 }
