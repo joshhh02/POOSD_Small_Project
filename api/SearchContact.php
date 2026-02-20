@@ -43,7 +43,7 @@
 			if( empty($searchTerm) )
 			{
 				// if search is empty, return all contacts for user
-				$stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email FROM Contacts WHERE UserID=? ORDER BY FirstName ASC, LastName ASC, ID ASC");
+				$stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email, DateCreated FROM Contacts WHERE UserID=? ORDER BY FirstName ASC, LastName ASC, ID ASC");
 				$stmt->bind_param("i", $userId);
 				$stmt->execute();
 				$result = $stmt->get_result();
@@ -66,7 +66,7 @@
 			else
 			{
 				// if search not empty, search for partial matches in all fields
-				$stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email FROM Contacts WHERE UserID=? AND (LOWER(FirstName) LIKE LOWER(?) OR LOWER(LastName) LIKE LOWER(?) OR Phone LIKE ? OR LOWER(Email) LIKE LOWER(?)) ORDER BY FirstName ASC, LastName ASC, ID ASC");
+				$stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email, DateCreated FROM Contacts WHERE UserID=? AND (LOWER(FirstName) LIKE LOWER(?) OR LOWER(LastName) LIKE LOWER(?) OR Phone LIKE ? OR LOWER(Email) LIKE LOWER(?)) ORDER BY FirstName ASC, LastName ASC, ID ASC");
 				if( !$stmt )
 				{
 					returnWithError("Database prepare error: " . $conn->error);
