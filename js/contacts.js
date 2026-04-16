@@ -65,6 +65,9 @@ async function addContact() {
     clearContactForm();
     searchContacts(document.getElementById("searchText")?.value.trim() || "");
   } catch (err) {
+    if (/already exists/i.test(err?.message || "")) {
+      alert(err.message);
+    }
     if (msg) msg.textContent = err.message;
   }
 }
