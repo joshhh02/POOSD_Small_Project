@@ -1,5 +1,25 @@
 let searchTimer;
 
+function favoriteValue(contact) {
+  // Favorite may come back as 0/1, "0"/"1", or be missing (older DB schema)
+  return Number(contact?.Favorite) === 1 ? 1 : 0;
+}
+
+function sortContactsByFavorite(results) {
+  const arr = Array.isArray(results) ? [...results] : [];
+
+  arr.sort((a, b) => {
+    const favDiff = favoriteValue(b) - favoriteValue(a);
+    if (favDiff !== 0) return favDiff;
+
+    const nameA = String(a?.Name || "");
+    const nameB = String(b?.Name || "");
+    return nameA.localeCompare(nameB, undefined, { sensitivity: "base" });
+  });
+
+  return arr;
+}
+
 function initContactsPage() {
   readCookie();
 
