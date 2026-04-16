@@ -1,5 +1,25 @@
 let searchTimer;
 
+function favoriteValue(contact) {
+  // Favorite may come back as 0/1, "0"/"1", or be missing (older DB schema)
+  return Number(contact?.Favorite) === 1 ? 1 : 0;
+}
+
+function sortContactsByFavorite(results) {
+  const arr = Array.isArray(results) ? [...results] : [];
+
+  arr.sort((a, b) => {
+    const favDiff = favoriteValue(b) - favoriteValue(a);
+    if (favDiff !== 0) return favDiff;
+
+    const nameA = String(a?.Name || "");
+    const nameB = String(b?.Name || "");
+    return nameA.localeCompare(nameB, undefined, { sensitivity: "base" });
+  });
+
+  return arr;
+}
+
 function initContactsPage() {
   readCookie();
 
@@ -24,8 +44,9 @@ async function searchContacts(query) {
     // SearchContact.php expects { search, userId }
     const data = await apiRequest("SearchContact", { search: query, userId });
     const results = data.results || [];
-    renderContacts(results);
-    if (msg) msg.textContent = `${results.length} contact(s) found`;
+    const sorted = sortContactsByFavorite(results);
+    renderContacts(sorted);
+    if (msg) msg.textContent = `${sorted.length} contact(s) found`;
   } catch (err) {
     if (msg) msg.textContent = err.message;
     renderContacts([]);
@@ -143,6 +164,20 @@ async function deleteContact(contactId) {
   }
 }
 
+async function toggleFavorite(contactId, currentFavorite) {
+  const msg = document.getElementById("contactSearchResult");
+  if (msg) msg.textContent = "";
+
+  try {
+    const nextFavorite = currentFavorite ? 0 : 1;
+    // favoriteContact.php expects { contactId, userId, favorite }
+    await apiRequest("favoriteContact", { contactId, userId, favorite: nextFavorite });
+    searchContacts(document.getElementById("searchText")?.value.trim() || "");
+  } catch (err) {
+    if (msg) msg.textContent = err.message;
+  }
+}
+
 function renderContacts(results) {
   const body = document.getElementById("contactsBody");
   if (!body) return;
@@ -150,12 +185,13 @@ function renderContacts(results) {
   body.innerHTML = "";
 
   for (const c of results) {
-    // SearchContact.php returns ID/Name/Phone/Email/DateCreated with this casing
+    // SearchContact.php returns ID/Name/Phone/Email/DateCreated (and optionally Favorite)
     const id = Number(c.ID);
     const name = c.Name || "";
     const phone = c.Phone || "";
     const email = c.Email || "";
     const dateCreated = c.DateCreated ? formatDate(c.DateCreated) : "";
+    const isFav = favoriteValue(c) === 1;
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -164,8 +200,11 @@ function renderContacts(results) {
       <td>${escapeHtml(email)}</td>
       <td>${escapeHtml(dateCreated)}</td>
       <td>
-        <button type="button" onclick="editContact(${id}, '${escapeAttr(name)}', '${escapeAttr(phone)}', '${escapeAttr(email)}')">Edit</button>
-        <button type="button" onclick="deleteContact(${id})">Delete</button>
+        <div class="action-buttons">
+          <button type="button" onclick="toggleFavorite(${id}, ${isFav ? 1 : 0})" title="${isFav ? "Unfavorite" : "Favorite"}">${isFav ? "★" : "☆"}</button>
+          <button type="button" onclick="editContact(${id}, '${escapeAttr(name)}', '${escapeAttr(phone)}', '${escapeAttr(email)}')">Edit</button>
+          <button type="button" onclick="deleteContact(${id})">Delete</button>
+        </div>
       </td>
     `;
     body.appendChild(tr);
